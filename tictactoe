@@ -1,0 +1,94 @@
+#include<stdio.h>
+
+struct board{
+    char c;
+    int p;
+};
+
+void display(struct board s[3][3]){
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+            if(j==2)
+            printf("%c\t",s[i][j].c);
+            else
+            printf("%c |\t",s[i][j].c);
+        }
+        printf("\n");
+    }
+}
+
+
+int wincheck(struct board s[3][3],int a,int b){
+    
+    int sum1=0,sum2=0,d1=0,d2=0,draw=0;
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+            if(s[i][j].p==1||s[i][j].p==-1)
+            draw++;
+        }
+    }
+    for(int i=0;i<3;i++){
+        sum1=sum1+s[a][i].p;
+    }
+      for(int i=0;i<3;i++){
+        sum2=sum2+s[i][b].p;
+      }
+     
+       
+       d1=s[0][0].p+s[1][1].p+s[2][2].p;
+       d2=s[0][2].p+s[1][1].p+s[2][0].p;
+      
+      if(sum1==3||sum1==-3)
+      return sum1;
+      else if(sum2==3||sum2==-3)
+      return sum2;
+      else if(d1==3||d1==-3)
+      return d1;
+      else if(d2==3||d2==-3)
+      return d2;
+      else if(draw==9)
+      return draw;
+      
+}
+
+void main(){
+    struct board s[3][3]={'\0','\0','\0','\0','\0','\0','\0','\0','\0'};
+    display(s);
+    int r,c,count=0,k=0;
+    while(1){
+        printf("enter position");
+        scanf("%d%d",&r,&c);
+        
+        if(count%2==0){
+        s[r][c].c='X';
+        count++;
+        s[r][c].p=1;
+        k=wincheck(s,r,c);
+        
+        }
+        else{
+        s[r][c].c='O';
+        count++;
+        s[r][c].p=-1;
+        k=wincheck(s,r,c);
+        
+        }
+        printf("\n%d\n",k);
+        display(s);
+        if(k==3){
+        printf("player 1 wins\n\tCongrats");
+        break;
+        }
+        else if(k==-3){
+        printf("player 2 wins\n\tCongrats");
+            break;
+        }
+        else if(k==9){
+        printf("\nDRAW!!");
+        break;}
+        
+    }
+    
+}
+
+
